@@ -2,6 +2,8 @@
 # include <stdlib.h>
 # include <string.h>
 
+
+// method 1
 int isMatch(char* s, char* p) {
 	int len_s = 0, len_p = 0, i, ind_s = 0, ind_p = 0;
 	char *s_p = s, *p_p = p, **dp;
@@ -29,9 +31,23 @@ int isMatch(char* s, char* p) {
 	return dp[len_s][len_p];
 }
 
+// method 2
+int isMatch(char *s, char *p)
+{
+	if (*p == '\0')
+		return *s == '\0';
+	if (*(p + 1) != '*')
+		return *s != '\0' && ((*p == *s) || (*p == '.')) && isMatch(s + 1, p + 1);
+	do { /* *(p+1) == '*' */
+		if (isMatch(s, p + 2))
+			return 1;
+	} while (*s != '\0' && (*s++ == *p || *p == '.'));
+	return 0;
+}
+
 int main()
 {
-	printf("%d\n", isMatch("aa", "aaaa*"));
+	printf("%d\n", isMatch("a", ".*..a*"));
 	printf("%d\n", isMatch("aa", "aa"));
 	printf("%d\n", isMatch("aaa", "aa"));
 	printf("%d\n", isMatch("aa", "a*"));
