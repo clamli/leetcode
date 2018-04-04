@@ -1,4 +1,4 @@
 ## Flag
 
 ***
-Use a public repository to push myself to write code.
+用公共仓库来让自己坚持刷题，Fighting~
