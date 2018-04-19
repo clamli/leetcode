@@ -41,19 +41,19 @@ import org.w3c.dom.css.ElementCSSInlineStyle;
 
 class Solution {
 	
-	public void moveZeroes(int[] nums) {
-        int cur_ind = 0;
-        for (int i = 0; i < nums.length; i++) {
-            if (nums[i] != 0) {
-                swap(nums, cur_ind, i);
-                cur_ind++;
-            }
+	public int findDuplicate(int[] nums) {
+        int tortoise = 0, hare = 0;
+        do {
+            tortoise = nums[tortoise];
+            hare = nums[nums[hare]];
+        } while (tortoise != hare);
+        
+        int start1 = 0, start2 = tortoise;
+        while (start1 != start2) {
+            start1 = nums[start1];
+            start2 = nums[start2];
         }
-    }
-    private void swap(int[] nums, int i, int j) {
-        int tmp = nums[i];
-        nums[i] = nums[j];
-        nums[j] = tmp;
+        return start1;
     }
 	
 }
