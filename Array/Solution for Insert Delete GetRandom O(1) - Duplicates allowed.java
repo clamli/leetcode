@@ -24,6 +24,7 @@ import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
+import java.util.TreeSet;
 import java.util.logging.Logger;
 
 import javax.naming.SizeLimitExceededException;
@@ -43,17 +44,17 @@ import org.w3c.dom.css.ElementCSSInlineStyle;
 class RandomizedCollection {
 
     /** Initialize your data structure here. */
-    HashMap<Integer, List<Integer>> map;
+    HashMap<Integer, TreeSet<Integer>> map;
     List<Integer> list;
     public RandomizedCollection() {
-        map = new HashMap<Integer, List<Integer>>();
+        map = new HashMap<Integer, TreeSet<Integer>>();
         list = new ArrayList<Integer>();
     }
     
     /** Inserts a value to the collection. Returns true if the collection did not already contain the specified element. */
     public boolean insert(int val) {
         if (!map.containsKey(val)) {
-            map.put(val, new LinkedList<Integer>(Arrays.asList(list.size())));
+            map.put(val, new TreeSet<Integer>(Arrays.asList(list.size())));
             list.add(val);
             return true;
         } else {
@@ -65,19 +66,15 @@ class RandomizedCollection {
     
     /** Removes a value from the collection. Returns true if the collection contained the specified element. */
     public boolean remove(int val) {
-        if (map.containsKey(val)) {
-            int locs = map.get(val).get(0);
+        if (map.containsKey(val) && !map.get(val).isEmpty()) {
+            int locs = map.get(val).pollLast();
             int lastVal = list.get(list.size()-1);
-            List<Integer> lastList = map.get(lastVal);
             if (locs != list.size()-1) {
                 list.set(locs, lastVal);
-                lastList.set(lastList.size()-1, locs);
+                map.get(lastVal).pollLast();
+                map.get(lastVal).add(locs);
             }
             list.remove(list.size()-1);
-            map.get(val).remove(0);
-            if (map.get(val).isEmpty()) {
-                map.remove(val);
-            }
             return true;
         }
         return false;
@@ -88,3 +85,11 @@ class RandomizedCollection {
         return list.get(new Random().nextInt(list.size()));
     }
 }
+
+/**
+ * Your RandomizedCollection object will be instantiated and called as such:
+ * RandomizedCollection obj = new RandomizedCollection();
+ * boolean param_1 = obj.insert(val);
+ * boolean param_2 = obj.remove(val);
+ * int param_3 = obj.getRandom();
+ */
