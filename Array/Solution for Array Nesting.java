@@ -43,33 +43,18 @@ import org.w3c.dom.css.ElementCSSInlineStyle;
 
 class Solution {
 	public int arrayNesting(int[] nums) {
-        if (nums.length == 0)
-            return 0;   
-        HashSet<Integer> set = new HashSet<Integer>();
-        for (Integer i : nums) {
-            set.add(i);
-        }
         int maxcount = 0;
         for (int i = 0; i < nums.length; i++) {
-            if (set.contains(i)) {
-                int turtle = i, hare = i;
-                do {
-                    turtle = nums[turtle];
-                    hare = nums[nums[hare]];
-                } while (nums[turtle] != nums[nums[hare]]);
-                int start1 = i, start2 = nums[turtle];
-                while (start1 != start2) {
-                    start1 = nums[start1];
-                    start2 = nums[start2];
-                }
-                int count = 0, start = start1;
-                do {
+            if (nums[i] != Integer.MAX_VALUE) {
+                int start = i, count = 0;
+                while (nums[start] != Integer.MAX_VALUE) {
+                    int tmp = start;
                     count++;
                     start = nums[start];
-                    set.remove(start);
-                } while (start != start1);
-                maxcount = Math.max(count, maxcount);
-            } 
+                    nums[tmp] = Integer.MAX_VALUE;
+                }
+                maxcount = Math.max(maxcount, count);
+            }
         }
         return maxcount;
     }
