@@ -42,26 +42,39 @@ import org.omg.CORBA.PUBLIC_MEMBER;
 import org.w3c.dom.css.ElementCSSInlineStyle;
 
 class Solution {
-	public int[][] matrixReshape(int[][] nums, int r, int c) {
-        int nrow = nums.length;
-        if (nrow == 0)
-            return nums;
-        int ncol = nums[0].length;
-        if (nrow*ncol != r*c)
-            return nums;
-        int[][] newnums = new int[r][c];
-        int row = 0, col = 0;
-        for (int i = 0; i < r; i++) {
-            for (int j = 0; j < c; j++) {
-                newnums[i][j] = nums[row][col];
-                if (col == ncol-1) {
-                    row += 1;
-                    col = 0;
-                } else {
-                    col += 1;
-                }
+	public int findUnsortedSubarray(int[] nums) {
+        boolean flag = false;
+        if (nums.length == 0)
+            return 0;
+        int lbound = 0, rbound = nums.length-1;
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] < nums[i-1]) {
+                lbound = i-1;
+                flag = true;
+                break;
             }
         }
-        return newnums;
+        if (!flag)
+            return 0;
+        for (int i = nums.length-2; i >= 0; i--) {
+            if (nums[i] > nums[i+1]) {
+                rbound = i+1;
+                break;
+            }
+        }
+        int max = nums[lbound], min = nums[lbound];
+        for (int i = lbound+1; i <= rbound; i++) {
+            max = Math.max(max, nums[i]);
+            min = Math.min(min, nums[i]);
+        }
+        for (int i = lbound-1; i >= 0; i--) {
+            if (nums[i] > min)
+                lbound = i;
+        }
+        for (int i = rbound+1; i < nums.length; i++) {
+            if (nums[i] < max)
+                rbound = i;
+        }
+        return rbound - lbound + 1;
     }
 }
