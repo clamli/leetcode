@@ -42,23 +42,47 @@ import org.omg.CORBA.PUBLIC_MEMBER;
 import org.w3c.dom.css.ElementCSSInlineStyle;
 
 class Solution {
-	public int divide(int dividend, int divisor) {
+	    // public int divide(int dividend, int divisor) {
+    //     if (dividend == Integer.MIN_VALUE && divisor == -1)
+    //         return Integer.MAX_VALUE;
+    //     int flag = (dividend < 0 ^ divisor < 0) ? -1 : 1;
+    //     long ldividend = (long)dividend, ldivisor = (long)divisor;
+    //     ldividend = Math.abs(ldividend);
+    //     ldivisor = Math.abs(ldivisor);
+    //     int quotient = 0;
+    //     while (ldivisor <= ldividend) {
+    //         long tmp = 1, multiple = ldivisor;
+    //         while ((multiple << 1) <= ldividend) {
+    //             tmp <<= 1;
+    //             multiple <<= 1;
+    //         }
+    //         ldividend -= multiple;
+    //         quotient += tmp;
+    //     }
+    //     return quotient*flag;
+    // }
+    
+    public int divide(int dividend, int divisor) {
         if (dividend == Integer.MIN_VALUE && divisor == -1)
             return Integer.MAX_VALUE;
-        int flag = (dividend < 0 ^ divisor < 0) ? -1 : 1;
-        long ldividend = (long)dividend, ldivisor = (long)divisor;
-        ldividend = Math.abs(ldividend);
-        ldivisor = Math.abs(ldivisor);
+        if (dividend < 0 && divisor < 0) return divideHelper(dividend, divisor);
+        else if (dividend < 0) return -1*divideHelper(dividend, -divisor);
+        else if (divisor < 0) return -1*divideHelper(-dividend, divisor);
+        else return divideHelper(-dividend, -divisor);
+    }
+    
+    private int divideHelper(int dividend, int divisor) {
         int quotient = 0;
-        while (ldivisor <= ldividend) {
-            long tmp = 1, multiple = ldivisor;
-            while ((multiple << 1) <= ldividend) {
+        while (divisor >= dividend) {
+            int tmp = 1, multiply = divisor, nextMulti = (multiply << 1);
+            while (nextMulti >= dividend && nextMulti < 0 && nextMulti >= dividend) {
                 tmp <<= 1;
-                multiple <<= 1;
+                multiply = nextMulti;
+                nextMulti = (multiply << 1);
             }
-            ldividend -= multiple;
+            dividend -= multiply;
             quotient += tmp;
         }
-        return quotient*flag;
+        return quotient;
     }
 }
