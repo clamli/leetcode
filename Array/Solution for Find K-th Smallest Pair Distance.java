@@ -28,7 +28,7 @@ import org.omg.CORBA.Current;
 import org.omg.CORBA.PUBLIC_MEMBER;
 import org.w3c.dom.css.ElementCSSInlineStyle;
 
-class RangeModule {
+class Solution {
     
     public int smallestDistancePair(int[] nums, int k) {
         // method 1 O(N + N*log(N) + W+N + N*log(W))
