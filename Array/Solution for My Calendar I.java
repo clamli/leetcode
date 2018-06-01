@@ -28,7 +28,7 @@ import org.omg.CORBA.Current;
 import org.omg.CORBA.PUBLIC_MEMBER;
 import org.w3c.dom.css.ElementCSSInlineStyle;
 
-class Solution {
+class MyCalendar {
     
     private TreeMap<Integer, Integer> treeMap;
 
