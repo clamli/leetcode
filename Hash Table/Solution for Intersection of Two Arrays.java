@@ -42,9 +42,6 @@ class Solution {
         for (int num : nums1_set) {
             if (nums2_set.contains(num)) res.add(num);
         }
-        for (int num : nums2_set) {
-            if (nums1_set.contains(num)) res.add(num);
-        }
         int[] res_arr = new int[res.size()];
         int idx = 0;
         for (int num : res) {
